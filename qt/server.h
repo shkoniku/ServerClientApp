@@ -4,6 +4,9 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QDataStream>
+#include <QXmlStreamReader>
+#include <QDir>
+#include <QFileInfo>
 
 
 class Server : public QTcpServer
@@ -17,6 +20,7 @@ public:
 private:
     QVector <QTcpSocket*> Sockets;
     QByteArray Data;
+    QVector <QString*> FileNames;
     void SendtoClient(QString str);
 
 public slots:

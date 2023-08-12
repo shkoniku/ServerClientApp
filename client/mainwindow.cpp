@@ -20,7 +20,6 @@ void MainWindow::slotReadyRead()
 {
     QDataStream in(socket);
     in.setVersion(QDataStream::Qt_5_12);
-    qDebug() << "trying get to server";
     if (in.status() == QDataStream::Ok)
     {
         ui->textBrowser->append("server is online");
@@ -30,7 +29,6 @@ void MainWindow::slotReadyRead()
     }
     else
     {
-        qDebug() << "server is offline";
         ui->textBrowser->append("read error");
     }
 }
@@ -40,7 +38,6 @@ void MainWindow::on_pushButton_clicked()
 {
     socket->connectToHost("127.0.0.1", 8000);
     SendToServer("get");
-    ui->textBrowser->append("start");
 }
 
 void MainWindow::SendToServer(QString str)
