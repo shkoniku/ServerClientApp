@@ -52,7 +52,7 @@ void DbCreator::InsertDataToBlocks(QString &id, QString &Name, QString &IP, QStr
                   "Mtc, "
                   "Description, "
                   "Label) "
-                  "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                  "VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
     query.addBindValue(id);
     query.addBindValue(Name);
     query.addBindValue(IP);
@@ -78,7 +78,7 @@ void DbCreator::InsertDataToBoards(QString &blockId, QString &id, QString &Num, 
                   "PortCount, "
                   "IntLinks, "
                   "Algoritms) "
-                  "VALUES (?, ?, ?, ?, ?, ?, ?)");
+                  "VALUES (?, ?, ?, ?, ?, ?, ?);");
     query.addBindValue(blockId);
     query.addBindValue(id);
     query.addBindValue(Num);
@@ -99,11 +99,26 @@ void DbCreator::InsertDataToPorts(QString &boardId, QString &id, QString &Num, Q
                   "Num, "
                   "Media, "
                   "Signal)"
-                  "VALUES (?, ?, ?, ?, ?)");
+                  "VALUES (?, ?, ?, ?, ?);");
     query.addBindValue(boardId);
     query.addBindValue(id);
     query.addBindValue(Num);
     query.addBindValue(Media);
     query.addBindValue(Signal);
     if (!query.exec()) qDebug() << "error adding values to table: ports. id = " << id;
+}
+
+void DbCreator::GetDataFrom(QString &name)
+{
+    queryModel.setQuery("SELECT * FROM "+name);
+    if (queryModel.lastError().isValid())
+    {
+        qDebug() << "error selecting from table: " << name << " " << queryModel.lastError();
+    }
+    else
+    {
+        while (queryModel.canFetchMore())
+            queryModel.fetchMore();
+    }
+
 }

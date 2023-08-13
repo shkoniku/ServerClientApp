@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTcpSocket>
 #include <QDebug>
+#include <QTreeWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,5 +29,6 @@ private:
     QTcpSocket *socket;
     QByteArray Data;
     void SendToServer(QString str);
+    void AddElementsToTreeView();
 };
 #endif // MAINWINDOW_H

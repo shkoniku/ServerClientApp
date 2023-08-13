@@ -1,6 +1,6 @@
 #include "server.h"
-#include "xmlParser.h"
-#include "DbCreator.h"
+
+
 
 Server::Server()
 {
@@ -12,8 +12,6 @@ Server::Server()
     {
         qDebug() << "error";
     }
-    Parser parser;
-    DbCreator creator;
     parser.Parse(creator);
 }
 
@@ -39,8 +37,10 @@ void Server::slotReadyRead()
         qDebug() << "read...";
         QString str;
         in >> str;
-        qDebug() << str;
-        SendtoClient("put");
+        if (str == "get")
+        {
+            this->PrepareData(socket);
+        }
     }
     else
     {
@@ -48,14 +48,33 @@ void Server::slotReadyRead()
     }
 }
 
-void Server::SendtoClient(QString str)
+void Server::SendtoClient(QTcpSocket *socket, QString str)
 {
     Data.clear();
     QDataStream out(&Data, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_5_12);
     out << str;
-    for(int iterator = 0; iterator < Sockets.size(); iterator++)
+    socket->write(Data);
+}
+
+void Server::PrepareData(QTcpSocket *socket)
+{
+    QStringList tables = {"blocks;", "boards;", "ports;"};
+    foreach(QString element, tables)
     {
-        Sockets[iterator]->write(Data);
+        creator.GetDataFrom(element);
+        QString message = "";
+        int firstBorder = creator.queryModel.rowCount();
+        for (int iterator = 0; iterator < firstBorder; iterator++)
+        {
+            message += element;
+            int secondBorder = creator.queryModel.record(iterator).count();
+            for (int step = 0; step < secondBorder; step++)
+            {
+                message += "/" + creator.queryModel.record(iterator).value(step).toString();
+            }
+            this->SendtoClient(socket, message);
+            message = "";
+        }
     }
 }

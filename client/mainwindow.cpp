@@ -29,7 +29,7 @@ void MainWindow::slotReadyRead()
     }
     else
     {
-        ui->textBrowser->append("read error");
+        ui->textBrowser->append("server is unavailable");
     }
 }
 
@@ -47,4 +47,10 @@ void MainWindow::SendToServer(QString str)
     out.setVersion(QDataStream::Qt_5_12);
     out << str;
     socket->write(Data);
+}
+
+
+void MainWindow::AddElementsToTreeView()
+{
+    //ui->treeWidget->
 }
