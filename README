@@ -1,0 +1,7 @@
+This repository have two direcories: qt(server) and client(client-side app).
+The server app create a server(at localhost with port: 8000) is searching into "..qt/XMLS" for xml files and parse them to Sqlite DB. Then wait to connect client,
+to send him a DB rows.
+The client app make window on start with 3 objects: button(connect to server), textBrowser(to show info about server-client
+conversation) and treeWidget(to show info from server, xml files content); and create socket to dialog with the server.
+After getting info client app create a treeWidget's content.
+DB have a 3 tables: blocks, boards and ports.
