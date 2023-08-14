@@ -4,9 +4,9 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QDataStream>
-#include <QXmlStreamReader>
-#include <QDir>
-#include <QFileInfo>
+#include <QSqlQuery>
+#include "xmlParser.h"
+#include "DbCreator.h"
 
 
 class Server : public QTcpServer
@@ -18,10 +18,15 @@ public:
     QTcpSocket *socket;
 
 private:
+    Parser parser;
+    DbCreator creator;
     QVector <QTcpSocket*> Sockets;
     QByteArray Data;
     QVector <QString*> FileNames;
-    void SendtoClient(QString str);
+    void SendtoClient(QTcpSocket *socket, QString &str);
+    void SendtoClient(QTcpSocket *socket, QStringList &latter);
+    void PrepareData(QTcpSocket *socket);
+
 
 public slots:
     void incomingConnection(qintptr socketDescriptor);
