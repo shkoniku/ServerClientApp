@@ -9,8 +9,7 @@ Parser::Parser()
 
 void Parser::Parse(DbCreator &creator)
 {
-    qDebug() << directory.count();
-    QStringList files = directory.entryList(QStringList() << "*.xml", QDir::Files);
+    QStringList files = directory.entryList(QStringList() << "*.xml", QDir::Files);    
     foreach (QString nameFile, files) {
         QFile* file = new QFile(filesPath+"/"+nameFile);
         QString blockId = "0", boardId = "0";

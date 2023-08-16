@@ -3,7 +3,7 @@
 DbCreator::DbCreator()
 {
     QSqlDatabase sqlitedb = QSqlDatabase::addDatabase("QSQLITE");
-    sqlitedb.setDatabaseName("../qt/blocks.sqlite");
+    sqlitedb.setDatabaseName(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)+"/blocks.sqlite");
     if (!sqlitedb.open())
     {
         qDebug() << "error opening database";

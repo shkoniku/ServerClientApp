@@ -3,6 +3,7 @@
 
 
 #include <QXmlStreamReader>
+#include <QStandardPaths>
 #include <QDir>
 #include <QFileInfo>
 #include "DbCreator.h"
@@ -11,7 +12,7 @@
 class Parser
 {
 private:
-    QString filesPath = "../qt/XMLS";
+    QString filesPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/XMLS";
     QDir directory = QDir(filesPath);
 
 
