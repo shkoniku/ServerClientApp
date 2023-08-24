@@ -24,6 +24,7 @@ public slots:
 
 private slots:
     void on_pushButton_clicked();
+    void slotErrorOccurred();
 
 private:
     Ui::MainWindow *ui;

@@ -9,12 +9,20 @@ MainWindow::MainWindow(QWidget *parent)
     socket = new QTcpSocket(this);
     connect(socket, &QTcpSocket::readyRead, this, &MainWindow::slotReadyRead);
     connect(socket, &QTcpSocket::disconnected, socket, &QTcpSocket::deleteLater);
+    connect(socket, &QTcpSocket::disconnected, this, &MainWindow::slotErrorOccurred);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+
+void MainWindow::slotErrorOccurred()
+{
+    ui->textBrowser->append("error: "+socket->errorString());
+}
+
 
 void MainWindow::slotReadyRead()
 {
@@ -89,8 +97,7 @@ void MainWindow::AddElementsToTreeView(QStringList &letter)
         }
         else if (values[0] == "ports;")
         {
-            QList <QTreeWidgetItem*> items = ui->treeWidget->findItems("ID: "+values[1], Qt::MatchExactly | Qt::MatchRecursive, 1);
-            qDebug() << items.size();
+            QList <QTreeWidgetItem*> items = ui->treeWidget->findItems("ID: "+values[1], Qt::MatchExactly | Qt::MatchRecursive, 1);            
             QTreeWidgetItem *Port = new QTreeWidgetItem(), *Num = new QTreeWidgetItem(),
                     *Media = new QTreeWidgetItem(), *Signal = new QTreeWidgetItem();
             Port->setText(2, "ID: "+values[2]);
