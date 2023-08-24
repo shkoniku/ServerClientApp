@@ -89,8 +89,7 @@ void MainWindow::AddElementsToTreeView(QStringList &letter)
         }
         else if (values[0] == "ports;")
         {
-            QList <QTreeWidgetItem*> items = ui->treeWidget->findItems("ID: "+values[1], Qt::MatchExactly | Qt::MatchRecursive, 1);
-            qDebug() << items.size();
+            QList <QTreeWidgetItem*> items = ui->treeWidget->findItems("ID: "+values[1], Qt::MatchExactly | Qt::MatchRecursive, 1);           
             QTreeWidgetItem *Port = new QTreeWidgetItem(), *Num = new QTreeWidgetItem(),
                     *Media = new QTreeWidgetItem(), *Signal = new QTreeWidgetItem();
             Port->setText(2, "ID: "+values[2]);
