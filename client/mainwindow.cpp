@@ -36,8 +36,16 @@ void MainWindow::slotReadyRead()
 
 void MainWindow::on_pushButton_clicked()
 {
-    socket->connectToHost("127.0.0.1", 8000);
-    SendToServer("get");
+    if (socket->state() == QAbstractSocket::ConnectedState || socket->state() == QAbstractSocket::ConnectingState)
+    {
+        ui->textBrowser->append("Already connected to server");
+    }
+    else
+    {
+        ui->textBrowser->clear();
+        socket->connectToHost("127.0.0.1", 8000);
+        SendToServer("get");
+    }
 }
 
 void MainWindow::SendToServer(QString str)
@@ -89,8 +97,7 @@ void MainWindow::AddElementsToTreeView(QStringList &letter)
         }
         else if (values[0] == "ports;")
         {
-            QList <QTreeWidgetItem*> items = ui->treeWidget->findItems("ID: "+values[1], Qt::MatchExactly | Qt::MatchRecursive, 1);
-            qDebug() << items.size();
+            QList <QTreeWidgetItem*> items = ui->treeWidget->findItems("ID: "+values[1], Qt::MatchExactly | Qt::MatchRecursive, 1);           
             QTreeWidgetItem *Port = new QTreeWidgetItem(), *Num = new QTreeWidgetItem(),
                     *Media = new QTreeWidgetItem(), *Signal = new QTreeWidgetItem();
             Port->setText(2, "ID: "+values[2]);
